@@ -9,16 +9,16 @@ The VerseCache system uses encryption to ensure that the cached files are only a
 ![Alt text](/screenshot3.png "VerseCache Screenshot 3")
 
 ## Installation
-1. Download the latest release of the VerseCache repository as a ZIP file or clone it from the repository.
-2. Put the VerseCache.cs in your desired scripts folder/location within the Unity project.
-3. Put the VerseCacheEditor.cs script to the projects 'Assets\Editor' folder
-4. Add the VerseCache.cs script to an object in your scene.
-5. In the inspector, set the cacheFilePath and cacheFilename properties to the path and filename of your cache file if custom. If the file doesn't exist, it will be created when you save.
+1. Put the VerseCache.cs in your desired scripts folder/location within the Unity project.
+2. Put the VerseCacheEditor.cs script to the projects 'Assets\Editor' folder
+3. Add the VerseCache.cs script to an object in your scene.
+4. In the inspector, set the cacheFilePath and cacheFilename properties to the path and filename of your cache file if custom. If the file doesn't exist, it will be created when you save, list, try to retrieve, etc.
 6. Set the inOutFilepath property to the full path of where you want files to go into the cache from (put), or be extracted to (get). Make sure to include the trailing forward slash /.
 7. If encryption mode is enabled, set the encryptionKey and encryptionIV properties to the desired encryption key and initialization vector in base64 format or press the generate button in the inspector.
+8. You must still provide a filename when storing or retrieving from the cache using the inspector demo
 
 ## Usage
-The VerseCache system is designed to work at runtime (but also will work for demoing purposes out-of-box in editor-mode while the project is not running) -- it can be used along with your game client's asset downloader mechanism such as TriLib to check the cache for an existing file first, download if it isn't and put it in the cache, if it's already in there pull it from VerseCache instead of downloading it. To use the system, attach the VerseCache script to an object in your scene, provide the valid cache file/path and input/output file/path in the Inspector, check the desired Put or Get option (one only) and click the Put/Get button.
+The VerseCache system is designed to work at runtime (but also will work in editor-mode while the project is not running) -- it can be used along with your game client's asset downloader mechanism such as TriLib to check the cache for an existing file first, download if it isn't and put it in the cache, if it's already in there pull it from VerseCache instead of downloading it. To use the system, attach the VerseCache script to an object in your scene, provide the valid cache file/path and input/output file/path in the Inspector, check the desired Put or Get option (one only) and click the Put/Get button.
 
 We can access the system via a reference to the running VerseCache script like so...
 
@@ -46,7 +46,6 @@ The VerseCache script provides the following properties in the inspector:
 - encryptionMode: Enables or disables encryption mode. If encryption mode is disabled, files will be stored in plain text.
 - encryptionKey: The encryption key in base64 format.
 - encryptionIV: The initialization vector in base64 format.
-- cacheSizeLimit: The maximum size of the cache file in bytes.
 
 
 ## Other Notes
