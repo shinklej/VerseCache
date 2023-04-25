@@ -1,6 +1,6 @@
 # VerseCache
 
-VerseCache is a secure cache system for Unity developers creating online games that will contain random UGC (user-generated content) at runtime. This system allows developers to store avatar assets, scene assets, sounds, music, mesh, textures, video, or any other type of content they need to download and cache.
+VerseCache is a secure cache system for Unity projects such as online games or metaverse applications that will contain random UGC (user-generated content) at fetched at runtime. This system allows developers to store avatar assets, scene assets, sounds, music, mesh, textures, video, or any other type of content they need to download and cache.
 
 The VerseCache system uses encryption to ensure that the cached files are only accessible to the game client directly. Without the correct key and initialization vector (IV), the cache file would be worthless to someone trying to pry at it to steal content such as the end user/player. The system is designed to be easy to use and highly secure, ensuring that the cached files are protected from unauthorized access.
 
