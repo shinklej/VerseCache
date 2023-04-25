@@ -144,53 +144,52 @@ public class VerseCache : MonoBehaviour
 	}
 
 	void Start()
-    {
+	{
 		// Set the cache path to the user's application data folder if setCachePathOnStart is true
 		if (setCachePathOnStart) cachePath = Application.persistentDataPath.ToString().Replace("\\","/") + "/";
-    }
+	}
 
 	// Set the encryption key and IV from byte arrays
 	// If the key or IV arrays are null or empty, use default Aes values
 	public void SetEncryptionData(byte[] key, byte[] iv)
-    {
-        EncryptionKey = System.Convert.ToBase64String(key);
-        EncryptionIV = System.Convert.ToBase64String(iv);
+	{
+		EncryptionKey = System.Convert.ToBase64String(key);
+		EncryptionIV = System.Convert.ToBase64String(iv);
 
-        encryptionKeyArray = null; // Invalidate cached byte array
-        initializationVectorArray = null; // Invalidate cached byte array
-    }
+		encryptionKeyArray = null; // Invalidate cached byte array
+		initializationVectorArray = null; // Invalidate cached byte array
+	}
 
-    public async Task DoAction()
-    {
-        CacheCheck();
-        if (isPutInCache)
-        {
-            //read the file data from disk
-            byte[] indata = File.ReadAllBytes(InOutFilepath + "/" + InOutFilename);
-            byte[] encData = null;
-            if (UseEncryption) encData = Encrypt(indata, EncryptionKeyArray, InitializationVectorArray); //encryption needs to be made async still
-            if (!UseEncryption) encData = indata;
+	public async Task DoAction()
+	{
+		CacheCheck();
+		if (isPutInCache)
+		{
+		    //read the file data from disk
+		    byte[] indata = File.ReadAllBytes(InOutFilepath + "/" + InOutFilename);
+		    byte[] encData = null;
+		    if (UseEncryption) encData = Encrypt(indata, EncryptionKeyArray, InitializationVectorArray); //encryption needs to be made async still
+		    if (!UseEncryption) encData = indata;
 
-            //save it into the cache
-            if (!UseAsync) StoreFile(InOutFilename, encData);
-            if (UseAsync) await SaveFileAsync(InOutFilename, encData);
-        }
+		    //save it into the cache
+		    if (!UseAsync) StoreFile(InOutFilename, encData);
+		    if (UseAsync) await SaveFileAsync(InOutFilename, encData);
+		}
 
-        if (isGetFromCache)
-        {
-            //retrieve the bytedata for the specific file name from the cache/sack
-            byte[] oData = null;
-            if (!UseAsync) oData = GetFile(InOutFilename);
-            if (UseAsync) oData = await LoadFileAsync(InOutFilename);
+		if (isGetFromCache)
+		{
+			//retrieve the bytedata for the specific file name from the cache/sack
+			byte[] oData = null;
+			if (!UseAsync) oData = GetFile(InOutFilename);
+			if (UseAsync) oData = await LoadFileAsync(InOutFilename);
 
-            byte[] data = null;
-            if (UseEncryption) data = Decrypt(oData, EncryptionKeyArray, InitializationVectorArray);  //decryption needs to be made async still
-            if (!UseEncryption) data = oData;
-
+			byte[] data = null;
+			if (UseEncryption) data = Decrypt(oData, EncryptionKeyArray, InitializationVectorArray);  //decryption needs to be made async still
+			if (!UseEncryption) data = oData;
 			//write the file data we pulled from the cache to the same location as our cache/sack file
 			File.WriteAllBytes(InOutFilepath + "/" +  InOutFilename, data);
 		}
-    }
+	}
 
 	// Encrypts the given byte array with the specified encryption key and initialization vector (IV)
 	public static byte[] Encrypt(byte[] input, byte[] key, byte[] iv)
@@ -242,23 +241,23 @@ public class VerseCache : MonoBehaviour
 
 	// Generate a new AES encryption key and initialization vector
 	public void GenerateKeyAndIV(out byte[] key, out byte[] iv)
-    {
-        using (Aes aes = Aes.Create())
-        {
-            key = aes.Key;
-            iv = aes.IV;
-        }
-    }
+	{
+		using (Aes aes = Aes.Create())
+		{
+			key = aes.Key;
+			iv = aes.IV;
+		}
+	}
 
-    public void GenerateRandomKeyIV()
-    {
-        byte[] outKey = null;
-        byte[] outIv = null;
+	public void GenerateRandomKeyIV()
+	{
+		byte[] outKey = null;
+		byte[] outIv = null;
 		// Generate a new AES encryption key and initialization vector
 		GenerateKeyAndIV(out outKey, out outIv);
 		// Set the encryption key and IV from byte arrays
 		SetEncryptionData(outKey, outIv);
-    }
+	}
 
 	// Stores a file in the cache with the given name and byte data
 	public void StoreFile(string name, byte[] data)
